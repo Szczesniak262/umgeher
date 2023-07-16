@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Suchfeld</title>
+  <style>
+    html, body {
+      height: 100%; /* Höhe auf 100% des Viewports setzen */
+      margin: 0;
+      padding: 0;
+    }
+
+    .iframe-container {
+      position: absolute;
+      top: 40px; /* Platz für die Leiste über dem iframe */
+      left: 0;
+      width: 100%;
+      height: calc(100% - 40px); /* Höhe auf 100% des Elternelements minus die Höhe der Leiste setzen */
+      z-index: 1; /* Höhere Stapelreihenfolge für das iframe */
+    }
+
+    .search-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background-color: #f1f1f1;
+      z-index: 2; /* Höhere Stapelreihenfolge für die Suchleiste */
+      display: flex;
+    }
+
+    .search-bar input[type="text"] {
+      flex-grow: 1;
+      padding: 5px;
+      border: none;
+    }
+
+    .search-bar input[type="submit"] {
+      padding: 5px 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="search-bar">
+    <form onsubmit="openIframe(); return false;">
+      <input type="text" id="urlInput" placeholder="URL eingeben" required>
+      <input type="submit" value="Öffnen">
+    </form>
+  </div>
+
+  <div class="iframe-container" id="iframeContainer"></div>
+
+  <script>
+    function openIframe() {
+      var url = document.getElementById("urlInput").value;
+      var iframeContainer = document.getElementById("iframeContainer");
+      var iframe = document.createElement("iframe");
+      iframe.src = "/proxy?url=" + encodeURIComponent(url);
+      iframe.className = "iframe-container";
+      iframeContainer.innerHTML = "";
+      iframeContainer.appendChild(iframe);
+    }
+  </script>
+</body>
+</html>
